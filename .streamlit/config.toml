@@ -6,5 +6,19 @@ secondaryBackgroundColor = "#fde6f1"
 textColor = "#0f1e4a"
 font = "sans serif"
 
+# Pin the Rajasthan Royals light look in both modes: viewers whose system prefers
+# dark would otherwise get a dark variant derived from these colours.
+[theme.light]
+primaryColor = "#ea1a85"
+backgroundColor = "#fff4f9"
+secondaryBackgroundColor = "#fde6f1"
+textColor = "#0f1e4a"
+
+[theme.dark]
+primaryColor = "#ea1a85"
+backgroundColor = "#fff4f9"
+secondaryBackgroundColor = "#fde6f1"
+textColor = "#0f1e4a"
+
 [browser]
 gatherUsageStats = false
