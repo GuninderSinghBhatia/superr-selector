@@ -1,0 +1,803 @@
+{
+  "data": {
+    "matches": 883,
+    "ipl_matches": 371,
+    "balls": 200961,
+    "seasons": "2022\u20132026",
+    "playoff_matches": 20,
+    "must_win_team_matches": 65,
+    "rivalry_pairs": [
+      {
+        "team_a": "Punjab Kings",
+        "team_b": "Gujarat Titans",
+        "meetings": 8,
+        "h2h_share_a": 0.5,
+        "close_share": 0.88
+      },
+      {
+        "team_a": "Rajasthan Royals",
+        "team_b": "Punjab Kings",
+        "meetings": 8,
+        "h2h_share_a": 0.62,
+        "close_share": 0.75
+      },
+      {
+        "team_a": "Rajasthan Royals",
+        "team_b": "Royal Challengers Bengaluru",
+        "meetings": 10,
+        "h2h_share_a": 0.5,
+        "close_share": 0.5
+      },
+      {
+        "team_a": "Delhi Capitals",
+        "team_b": "Gujarat Titans",
+        "meetings": 8,
+        "h2h_share_a": 0.38,
+        "close_share": 0.62
+      },
+      {
+        "team_a": "Delhi Capitals",
+        "team_b": "Kolkata Knight Riders",
+        "meetings": 8,
+        "h2h_share_a": 0.5,
+        "close_share": 0.25
+      },
+      {
+        "team_a": "Mumbai Indians",
+        "team_b": "Delhi Capitals",
+        "meetings": 8,
+        "h2h_share_a": 0.62,
+        "close_share": 0.5
+      },
+      {
+        "team_a": "Mumbai Indians",
+        "team_b": "Punjab Kings",
+        "meetings": 8,
+        "h2h_share_a": 0.38,
+        "close_share": 0.5
+      },
+      {
+        "team_a": "Mumbai Indians",
+        "team_b": "Gujarat Titans",
+        "meetings": 9,
+        "h2h_share_a": 0.44,
+        "close_share": 0.33
+      },
+      {
+        "team_a": "Gujarat Titans",
+        "team_b": "Lucknow Super Giants",
+        "meetings": 8,
+        "h2h_share_a": 0.62,
+        "close_share": 0.38
+      }
+    ],
+    "ties": 10,
+    "no_results": 41
+  },
+  "wp_metrics": {
+    "inn2": {
+      "auc": 0.8549413749898518,
+      "brier": 0.1628979115306376,
+      "n": 94020
+    },
+    "inn1": {
+      "auc": 0.6905964194428266,
+      "brier": 0.22247700250666813,
+      "n": 103572
+    }
+  },
+  "must_win_cutoff": 16,
+  "config": {
+    "pressure_pct": 0.7,
+    "leverage_share": 0.7,
+    "context_mult": {
+      "must_win": 1.35,
+      "playoff": 1.5,
+      "rivalry": 1.2,
+      "bad_form": 1.25
+    },
+    "min_balls": {
+      "bat": {
+        "inn2": 60,
+        "inn1": 60,
+        "must_win": 30,
+        "playoff": 15,
+        "rivalry": 30,
+        "bad_form": 30
+      },
+      "bowl": {
+        "inn2": 90,
+        "inn1": 90,
+        "must_win": 42,
+        "playoff": 24,
+        "rivalry": 42,
+        "bad_form": 42
+      }
+    },
+    "component_weights": {
+      "output": 0.9,
+      "rise": 0.1,
+      "consistency": 0.0
+    },
+    "output_weights": {
+      "bat": {
+        "sr": 0.8,
+        "wk": 0.1,
+        "wpa": 0.1
+      },
+      "bowl": {
+        "sr": 0.7,
+        "wk": 0.2,
+        "wpa": 0.1
+      }
+    },
+    "filter_weights": {
+      "inn2": 0.35,
+      "inn1": 0.25,
+      "must_win": 0.1,
+      "playoff": 0.15,
+      "rivalry": 0.05,
+      "bad_form": 0.1
+    },
+    "winsor_pct": 0.02,
+    "recency_decay": 0.85,
+    "associate_weight": 0.5,
+    "n_boot": 1000
+  },
+  "eligible": {
+    "bat": {
+      "inn2": 144,
+      "inn1": 155,
+      "must_win": 38,
+      "playoff": 49,
+      "rivalry": 74,
+      "bad_form": 61
+    },
+    "bowl": {
+      "inn2": 111,
+      "inn1": 118,
+      "must_win": 36,
+      "playoff": 33,
+      "rivalry": 65,
+      "bad_form": 44
+    }
+  },
+  "split_half": {
+    "bat": {
+      "rho": 0.438,
+      "top10_overlap": 3.0,
+      "top25_overlap": 9.9
+    },
+    "bowl": {
+      "rho": 0.339,
+      "top10_overlap": 4.0,
+      "top25_overlap": 11.1
+    }
+  },
+  "ablation": [
+    {
+      "step": "Design-doc scoring (league prior, equal components)",
+      "bat_rho": 0.034,
+      "bat_top10": 2.0,
+      "bowl_rho": 0.256,
+      "bowl_top10": 2.5
+    },
+    {
+      "step": "+ shrink toward player's own level",
+      "bat_rho": 0.171,
+      "bat_top10": 2.5,
+      "bowl_rho": 0.254,
+      "bowl_top10": 3.1
+    },
+    {
+      "step": "+ reliability-weighted components",
+      "bat_rho": 0.443,
+      "bat_top10": 3.2,
+      "bowl_rho": 0.339,
+      "bowl_top10": 3.9
+    },
+    {
+      "step": "+ percentiles within role (final)",
+      "bat_rho": 0.438,
+      "bat_top10": 3.0,
+      "bowl_rho": 0.339,
+      "bowl_top10": 4.0
+    }
+  ],
+  "sensitivity_mean_survivors": {
+    "bat": 7.9,
+    "bowl": 8.3
+  },
+  "sensitivity_by_weights": {
+    "bat": {
+      "IPL context heavy": 7.7,
+      "chase/defend only": 6.3,
+      "core only (inn1+inn2)": 8.0,
+      "equal": 8.3,
+      "no rivalry": 8.3,
+      "submission": 8.7
+    },
+    "bowl": {
+      "IPL context heavy": 8.3,
+      "chase/defend only": 5.7,
+      "core only (inn1+inn2)": 8.0,
+      "equal": 9.0,
+      "no rivalry": 9.0,
+      "submission": 9.7
+    }
+  },
+  "loso": {
+    "bat": {
+      "2022": 9,
+      "2023": 9,
+      "2024": 7,
+      "2025": 6,
+      "2026": 4
+    },
+    "bowl": {
+      "2022": 9,
+      "2023": 8,
+      "2024": 9,
+      "2025": 6,
+      "2026": 9
+    }
+  },
+  "top10_stability": {
+    "bat": {
+      "50284": 1.0,
+      "1699": 1.0,
+      "4260": 1.0,
+      "5039": 0.78,
+      "3647": 1.0,
+      "6396": 0.78,
+      "37052": 0.67,
+      "1318": 0.56,
+      "4736": 0.56,
+      "2756": 0.56
+    },
+    "bowl": {
+      "830": 1.0,
+      "6256": 0.94,
+      "4219": 0.94,
+      "4722": 1.0,
+      "360": 0.83,
+      "2320": 0.94,
+      "781": 0.83,
+      "3644": 0.78,
+      "2933": 0.72,
+      "7920": 0.28
+    }
+  },
+  "median_check": {
+    "bat": {
+      "rho_score_vs_median": 0.505,
+      "top10_median_pct_min": 0.37,
+      "top10_median_pct_mean": 0.79
+    },
+    "bowl": {
+      "rho_score_vs_median": 0.561,
+      "top10_median_pct_min": 0.24,
+      "top10_median_pct_mean": 0.72
+    }
+  },
+  "validation": [
+    {
+      "innings": 1,
+      "phase": "death",
+      "pressure": "ordinary",
+      "balls": 16449,
+      "run_rate": 10.135,
+      "wicket_pct": 7.97,
+      "dot_pct": 18.852,
+      "boundary_pct": 21.612,
+      "mean_leverage": 0.009
+    },
+    {
+      "innings": 1,
+      "phase": "death",
+      "pressure": "pressure",
+      "balls": 9509,
+      "run_rate": 9.473,
+      "wicket_pct": 8.098,
+      "dot_pct": 19.434,
+      "boundary_pct": 19.077,
+      "mean_leverage": 0.023
+    },
+    {
+      "innings": 1,
+      "phase": "middle",
+      "pressure": "ordinary",
+      "balls": 35568,
+      "run_rate": 8.235,
+      "wicket_pct": 4.653,
+      "dot_pct": 24.606,
+      "boundary_pct": 15.286,
+      "mean_leverage": 0.009
+    },
+    {
+      "innings": 1,
+      "phase": "middle",
+      "pressure": "pressure",
+      "balls": 11824,
+      "run_rate": 7.461,
+      "wicket_pct": 4.229,
+      "dot_pct": 28.129,
+      "boundary_pct": 12.821,
+      "mean_leverage": 0.021
+    },
+    {
+      "innings": 1,
+      "phase": "powerplay",
+      "pressure": "ordinary",
+      "balls": 21991,
+      "run_rate": 8.408,
+      "wicket_pct": 4.388,
+      "dot_pct": 38.125,
+      "boundary_pct": 21.113,
+      "mean_leverage": 0.01
+    },
+    {
+      "innings": 1,
+      "phase": "powerplay",
+      "pressure": "pressure",
+      "balls": 10386,
+      "run_rate": 7.877,
+      "wicket_pct": 4.131,
+      "dot_pct": 40.208,
+      "boundary_pct": 19.584,
+      "mean_leverage": 0.022
+    },
+    {
+      "innings": 2,
+      "phase": "death",
+      "pressure": "ordinary",
+      "balls": 12672,
+      "run_rate": 9.013,
+      "wicket_pct": 8.12,
+      "dot_pct": 23.769,
+      "boundary_pct": 19.066,
+      "mean_leverage": 0.003
+    },
+    {
+      "innings": 2,
+      "phase": "death",
+      "pressure": "pressure",
+      "balls": 5822,
+      "run_rate": 9.628,
+      "wicket_pct": 8.691,
+      "dot_pct": 19.564,
+      "boundary_pct": 19.735,
+      "mean_leverage": 0.067
+    },
+    {
+      "innings": 2,
+      "phase": "middle",
+      "pressure": "ordinary",
+      "balls": 32315,
+      "run_rate": 8.205,
+      "wicket_pct": 4.917,
+      "dot_pct": 25.657,
+      "boundary_pct": 15.476,
+      "mean_leverage": 0.006
+    },
+    {
+      "innings": 2,
+      "phase": "middle",
+      "pressure": "pressure",
+      "balls": 12794,
+      "run_rate": 7.715,
+      "wicket_pct": 5.041,
+      "dot_pct": 25.95,
+      "boundary_pct": 13.975,
+      "mean_leverage": 0.037
+    },
+    {
+      "innings": 2,
+      "phase": "powerplay",
+      "pressure": "ordinary",
+      "balls": 21676,
+      "run_rate": 8.536,
+      "wicket_pct": 4.646,
+      "dot_pct": 37.904,
+      "boundary_pct": 21.646,
+      "mean_leverage": 0.01
+    },
+    {
+      "innings": 2,
+      "phase": "powerplay",
+      "pressure": "pressure",
+      "balls": 9955,
+      "run_rate": 8.182,
+      "wicket_pct": 4.641,
+      "dot_pct": 38.815,
+      "boundary_pct": 20.512,
+      "mean_leverage": 0.033
+    }
+  ],
+  "lists": {
+    "bat": [
+      {
+        "Rank": 1,
+        "Player": "Vaibhav Sooryavanshi",
+        "Team": "Rajasthan Royals",
+        "Role": "opener",
+        "Score": 87.1,
+        "Rank low (5%)": 1,
+        "Rank high (95%)": 120,
+        "P(top 10)": 0.74,
+        "Choke rate": 37.0,
+        "Pressure balls": 262,
+        "Filters scored": 5,
+        "score_inn2": 93.2,
+        "score_inn1": 84.7,
+        "score_must_win": 89.9,
+        "score_playoff": 96.2,
+        "score_rivalry": 96.9,
+        "score_bad_form": null
+      },
+      {
+        "Rank": 2,
+        "Player": "Suryakumar Yadav",
+        "Team": "Mumbai Indians",
+        "Role": "middle",
+        "Score": 86.5,
+        "Rank low (5%)": 1,
+        "Rank high (95%)": 24,
+        "P(top 10)": 0.75,
+        "Choke rate": 41.0,
+        "Pressure balls": 1165,
+        "Filters scored": 5,
+        "score_inn2": 97.1,
+        "score_inn1": 93.3,
+        "score_must_win": null,
+        "score_playoff": 91.4,
+        "score_rivalry": 72.8,
+        "score_bad_form": 68.6
+      },
+      {
+        "Rank": 3,
+        "Player": "Heinrich Klaasen",
+        "Team": "Sunrisers Hyderabad",
+        "Role": "middle",
+        "Score": 83.2,
+        "Rank low (5%)": 2,
+        "Rank high (95%)": 35,
+        "P(top 10)": 0.53,
+        "Choke rate": 54.0,
+        "Pressure balls": 578,
+        "Filters scored": 5,
+        "score_inn2": 90.1,
+        "score_inn1": 84.2,
+        "score_must_win": 79.1,
+        "score_playoff": 76.2,
+        "score_rivalry": null,
+        "score_bad_form": 87.5
+      },
+      {
+        "Rank": 4,
+        "Player": "Rajat Patidar",
+        "Team": "Royal Challengers Bengaluru",
+        "Role": "middle",
+        "Score": 82.4,
+        "Rank low (5%)": 2,
+        "Rank high (95%)": 120,
+        "P(top 10)": 0.41,
+        "Choke rate": 53.0,
+        "Pressure balls": 417,
+        "Filters scored": 5,
+        "score_inn2": 77.7,
+        "score_inn1": 92.9,
+        "score_must_win": null,
+        "score_playoff": 100.0,
+        "score_rivalry": 52.5,
+        "score_bad_form": 94.2
+      },
+      {
+        "Rank": 5,
+        "Player": "Shreyas Iyer",
+        "Team": "Punjab Kings",
+        "Role": "middle",
+        "Score": 81.0,
+        "Rank low (5%)": 1,
+        "Rank high (95%)": 39,
+        "P(top 10)": 0.7,
+        "Choke rate": 31.0,
+        "Pressure balls": 710,
+        "Filters scored": 5,
+        "score_inn2": 85.6,
+        "score_inn1": 81.5,
+        "score_must_win": null,
+        "score_playoff": 78.7,
+        "score_rivalry": 100.0,
+        "score_bad_form": 88.1
+      },
+      {
+        "Rank": 6,
+        "Player": "Tim David",
+        "Team": "Royal Challengers Bengaluru",
+        "Role": "finisher",
+        "Score": 77.6,
+        "Rank low (5%)": 3,
+        "Rank high (95%)": 51,
+        "P(top 10)": 0.42,
+        "Choke rate": 62.0,
+        "Pressure balls": 627,
+        "Filters scored": 4,
+        "score_inn2": 85.4,
+        "score_inn1": 90.5,
+        "score_must_win": null,
+        "score_playoff": null,
+        "score_rivalry": 74.6,
+        "score_bad_form": 88.4
+      },
+      {
+        "Rank": 7,
+        "Player": "Naman Dhir",
+        "Team": "Mumbai Indians",
+        "Role": "middle",
+        "Score": 76.3,
+        "Rank low (5%)": 4,
+        "Rank high (95%)": 120,
+        "P(top 10)": 0.33,
+        "Choke rate": 46.0,
+        "Pressure balls": 318,
+        "Filters scored": 4,
+        "score_inn2": 92.6,
+        "score_inn1": 78.6,
+        "score_must_win": null,
+        "score_playoff": 72.2,
+        "score_rivalry": 68.7,
+        "score_bad_form": null
+      },
+      {
+        "Rank": 8,
+        "Player": "Andre Russell",
+        "Team": "Kolkata Knight Riders",
+        "Role": "finisher",
+        "Score": 75.7,
+        "Rank low (5%)": 4,
+        "Rank high (95%)": 120,
+        "P(top 10)": 0.18,
+        "Choke rate": 38.0,
+        "Pressure balls": 367,
+        "Filters scored": 4,
+        "score_inn2": 77.1,
+        "score_inn1": 96.6,
+        "score_must_win": 91.0,
+        "score_playoff": null,
+        "score_rivalry": null,
+        "score_bad_form": 54.1
+      },
+      {
+        "Rank": 9,
+        "Player": "Josh Inglis",
+        "Team": "Lucknow Super Giants",
+        "Role": "middle",
+        "Score": 75.5,
+        "Rank low (5%)": 3,
+        "Rank high (95%)": 50,
+        "P(top 10)": 0.32,
+        "Choke rate": 43.0,
+        "Pressure balls": 455,
+        "Filters scored": 5,
+        "score_inn2": 83.1,
+        "score_inn1": 69.3,
+        "score_must_win": null,
+        "score_playoff": 74.8,
+        "score_rivalry": 87.7,
+        "score_bad_form": 85.1
+      },
+      {
+        "Rank": 10,
+        "Player": "Shashank Singh",
+        "Team": "Punjab Kings",
+        "Role": "finisher",
+        "Score": 75.4,
+        "Rank low (5%)": 5,
+        "Rank high (95%)": 120,
+        "P(top 10)": 0.18,
+        "Choke rate": 38.0,
+        "Pressure balls": 221,
+        "Filters scored": 4,
+        "score_inn2": 82.9,
+        "score_inn1": 80.2,
+        "score_must_win": null,
+        "score_playoff": 78.8,
+        "score_rivalry": 89.9,
+        "score_bad_form": null
+      }
+    ],
+    "bowl": [
+      {
+        "Rank": 1,
+        "Player": "Josh Hazlewood",
+        "Team": "Royal Challengers Bengaluru",
+        "Role": "powerplay",
+        "Score": 85.0,
+        "Rank low (5%)": 1,
+        "Rank high (95%)": 24,
+        "P(top 10)": 0.8,
+        "Choke rate": 51.0,
+        "Pressure balls": 777,
+        "Filters scored": 5,
+        "score_inn2": 94.3,
+        "score_inn1": 84.0,
+        "score_must_win": null,
+        "score_playoff": 82.8,
+        "score_rivalry": 94.6,
+        "score_bad_form": 88.1
+      },
+      {
+        "Rank": 2,
+        "Player": "Varun Chakravarthy",
+        "Team": "Kolkata Knight Riders",
+        "Role": "middle",
+        "Score": 83.9,
+        "Rank low (5%)": 1,
+        "Rank high (95%)": 15,
+        "P(top 10)": 0.88,
+        "Choke rate": 30.0,
+        "Pressure balls": 981,
+        "Filters scored": 5,
+        "score_inn2": 89.7,
+        "score_inn1": 95.5,
+        "score_must_win": 94.3,
+        "score_playoff": null,
+        "score_rivalry": 59.4,
+        "score_bad_form": 87.4
+      },
+      {
+        "Rank": 3,
+        "Player": "Krunal Pandya",
+        "Team": "Royal Challengers Bengaluru",
+        "Role": "middle",
+        "Score": 80.7,
+        "Rank low (5%)": 1,
+        "Rank high (95%)": 28,
+        "P(top 10)": 0.71,
+        "Choke rate": 49.0,
+        "Pressure balls": 725,
+        "Filters scored": 5,
+        "score_inn2": 91.4,
+        "score_inn1": 71.5,
+        "score_must_win": null,
+        "score_playoff": 85.2,
+        "score_rivalry": 81.9,
+        "score_bad_form": 89.7
+      },
+      {
+        "Rank": 4,
+        "Player": "Rashid Khan",
+        "Team": "Gujarat Titans",
+        "Role": "middle",
+        "Score": 80.5,
+        "Rank low (5%)": 2,
+        "Rank high (95%)": 43,
+        "P(top 10)": 0.41,
+        "Choke rate": 43.0,
+        "Pressure balls": 1290,
+        "Filters scored": 5,
+        "score_inn2": 88.7,
+        "score_inn1": 84.2,
+        "score_must_win": null,
+        "score_playoff": 82.2,
+        "score_rivalry": 83.5,
+        "score_bad_form": 68.7
+      },
+      {
+        "Rank": 5,
+        "Player": "Bhuvneshwar Kumar",
+        "Team": "Royal Challengers Bengaluru",
+        "Role": "powerplay",
+        "Score": 80.1,
+        "Rank low (5%)": 1,
+        "Rank high (95%)": 41,
+        "P(top 10)": 0.53,
+        "Choke rate": 44.0,
+        "Pressure balls": 1181,
+        "Filters scored": 6,
+        "score_inn2": 86.6,
+        "score_inn1": 80.5,
+        "score_must_win": 74.6,
+        "score_playoff": 75.4,
+        "score_rivalry": 35.9,
+        "score_bad_form": 91.4
+      },
+      {
+        "Rank": 6,
+        "Player": "Trent Boult",
+        "Team": "Mumbai Indians",
+        "Role": "powerplay",
+        "Score": 77.0,
+        "Rank low (5%)": 2,
+        "Rank high (95%)": 27,
+        "P(top 10)": 0.56,
+        "Choke rate": 30.0,
+        "Pressure balls": 1067,
+        "Filters scored": 5,
+        "score_inn2": 96.8,
+        "score_inn1": 61.5,
+        "score_must_win": null,
+        "score_playoff": 78.4,
+        "score_rivalry": 92.7,
+        "score_bad_form": 63.8
+      },
+      {
+        "Rank": 7,
+        "Player": "Sunil Narine",
+        "Team": "Kolkata Knight Riders",
+        "Role": "middle",
+        "Score": 77.0,
+        "Rank low (5%)": 1,
+        "Rank high (95%)": 21,
+        "P(top 10)": 0.79,
+        "Choke rate": 44.0,
+        "Pressure balls": 917,
+        "Filters scored": 5,
+        "score_inn2": 80.2,
+        "score_inn1": 86.9,
+        "score_must_win": 77.1,
+        "score_playoff": null,
+        "score_rivalry": 89.0,
+        "score_bad_form": 75.3
+      },
+      {
+        "Rank": 8,
+        "Player": "Kuldeep Yadav",
+        "Team": "Delhi Capitals",
+        "Role": "middle",
+        "Score": 75.8,
+        "Rank low (5%)": 2,
+        "Rank high (95%)": 40,
+        "P(top 10)": 0.48,
+        "Choke rate": 49.0,
+        "Pressure balls": 1032,
+        "Filters scored": 5,
+        "score_inn2": 94.6,
+        "score_inn1": 59.6,
+        "score_must_win": 73.1,
+        "score_playoff": null,
+        "score_rivalry": 97.9,
+        "score_bad_form": 80.6
+      },
+      {
+        "Rank": 9,
+        "Player": "Jasprit Bumrah",
+        "Team": "Mumbai Indians",
+        "Role": "powerplay",
+        "Score": 74.4,
+        "Rank low (5%)": 2,
+        "Rank high (95%)": 18,
+        "P(top 10)": 0.76,
+        "Choke rate": 65.0,
+        "Pressure balls": 971,
+        "Filters scored": 5,
+        "score_inn2": 75.5,
+        "score_inn1": 83.2,
+        "score_must_win": null,
+        "score_playoff": 76.8,
+        "score_rivalry": 86.7,
+        "score_bad_form": 63.5
+      },
+      {
+        "Rank": 10,
+        "Player": "Nathan Ellis",
+        "Team": "Punjab Kings",
+        "Role": "death",
+        "Score": 71.0,
+        "Rank low (5%)": 8,
+        "Rank high (95%)": 87,
+        "P(top 10)": 0.1,
+        "Choke rate": 63.0,
+        "Pressure balls": 383,
+        "Filters scored": 3,
+        "score_inn2": 82.1,
+        "score_inn1": 82.6,
+        "score_must_win": null,
+        "score_playoff": null,
+        "score_rivalry": 82.6,
+        "score_bad_form": null
+      }
+    ]
+  }
+}

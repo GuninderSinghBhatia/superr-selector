@@ -1,0 +1,7 @@
+# Runtime for the Streamlit dashboard (Streamlit Community Cloud reads this file; Python 3.12).
+# The offline pipeline (src.build / src.reliability / src.report) also needs: scikit-learn, scipy, matplotlib.
+streamlit==1.67.0
+pandas==3.1.1
+numpy==2.5.5
+plotly==7.1.0
+pyarrow==26.0.1

@@ -1,0 +1,13 @@
+innings,phase,pressure,balls,run_rate,wicket_pct,dot_pct,boundary_pct,mean_leverage
+1,death,ordinary,16449,10.135,7.97,18.852,21.612,0.009
+1,death,pressure,9509,9.473,8.098,19.434,19.077,0.023
+1,middle,ordinary,35568,8.235,4.653,24.606,15.286,0.009
+1,middle,pressure,11824,7.461,4.229,28.129,12.821,0.021
+1,powerplay,ordinary,21991,8.408,4.388,38.125,21.113,0.01
+1,powerplay,pressure,10386,7.877,4.131,40.208,19.584,0.022
+2,death,ordinary,12672,9.013,8.12,23.769,19.066,0.003
+2,death,pressure,5822,9.628,8.691,19.564,19.735,0.067
+2,middle,ordinary,32315,8.205,4.917,25.657,15.476,0.006
+2,middle,pressure,12794,7.715,5.041,25.95,13.975,0.037
+2,powerplay,ordinary,21676,8.536,4.646,37.904,21.646,0.01
+2,powerplay,pressure,9955,8.182,4.641,38.815,20.512,0.033

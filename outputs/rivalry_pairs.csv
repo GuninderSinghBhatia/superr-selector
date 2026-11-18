@@ -1,0 +1,32 @@
+pair,meetings,wins_a,close_share,h2h_share_a,evenness,rivalry_score,team_a,team_b,is_rivalry
+"(4, 3508)",8,4,0.875,0.5,1.0,0.9375,Punjab Kings,Gujarat Titans,True
+"(3, 4)",8,5,0.75,0.625,0.75,0.75,Rajasthan Royals,Punjab Kings,True
+"(3, 5)",10,5,0.5,0.5,1.0,0.75,Rajasthan Royals,Royal Challengers Bengaluru,True
+"(7, 3508)",8,3,0.625,0.375,0.75,0.6875,Delhi Capitals,Gujarat Titans,True
+"(7, 8)",8,4,0.25,0.5,1.0,0.625,Delhi Capitals,Kolkata Knight Riders,True
+"(2, 7)",8,5,0.5,0.625,0.75,0.625,Mumbai Indians,Delhi Capitals,True
+"(2, 4)",8,3,0.5,0.375,0.75,0.625,Mumbai Indians,Punjab Kings,True
+"(2, 3508)",9,4,0.3333333333333333,0.4444444444444444,0.8888888888888888,0.611111111111111,Mumbai Indians,Gujarat Titans,True
+"(3508, 3509)",8,5,0.375,0.625,0.75,0.5625,Gujarat Titans,Lucknow Super Giants,True
+"(7, 3509)",8,5,0.375,0.625,0.75,0.5625,Delhi Capitals,Lucknow Super Giants,False
+"(5, 242)",8,4,0.125,0.5,1.0,0.5625,Royal Challengers Bengaluru,Sunrisers Hyderabad,False
+"(3, 3509)",8,6,0.625,0.75,0.5,0.5625,Rajasthan Royals,Lucknow Super Giants,False
+"(4, 7)",8,3,0.375,0.375,0.75,0.5625,Punjab Kings,Delhi Capitals,False
+"(1, 3508)",10,4,0.3,0.4,0.8,0.55,Chennai Super Kings,Gujarat Titans,False
+"(1, 5)",8,3,0.25,0.375,0.75,0.5,Chennai Super Kings,Royal Challengers Bengaluru,False
+"(5, 3509)",8,5,0.25,0.625,0.75,0.5,Royal Challengers Bengaluru,Lucknow Super Giants,False
+"(5, 3508)",10,6,0.2,0.6,0.8,0.5,Royal Challengers Bengaluru,Gujarat Titans,False
+"(1, 242)",8,3,0.25,0.375,0.75,0.5,Chennai Super Kings,Sunrisers Hyderabad,False
+"(2, 3509)",9,3,0.3333333333333333,0.3333333333333333,0.6666666666666666,0.5,Mumbai Indians,Lucknow Super Giants,False
+"(2, 3)",8,3,0.25,0.375,0.75,0.5,Mumbai Indians,Rajasthan Royals,False
+"(8, 242)",11,7,0.18181818181818182,0.6363636363636364,0.7272727272727273,0.4545454545454546,Kolkata Knight Riders,Sunrisers Hyderabad,False
+"(3, 3508)",11,3,0.36363636363636365,0.2727272727272727,0.5454545454545454,0.45454545454545453,Rajasthan Royals,Gujarat Titans,False
+"(4, 5)",10,3,0.3,0.3,0.6,0.44999999999999996,Punjab Kings,Royal Challengers Bengaluru,False
+"(3, 242)",9,3,0.2222222222222222,0.3333333333333333,0.6666666666666666,0.4444444444444444,Rajasthan Royals,Sunrisers Hyderabad,False
+"(4, 3509)",8,5,0.125,0.625,0.75,0.4375,Punjab Kings,Lucknow Super Giants,False
+"(2, 8)",8,3,0.125,0.375,0.75,0.4375,Mumbai Indians,Kolkata Knight Riders,False
+"(2, 242)",8,5,0.125,0.625,0.75,0.4375,Mumbai Indians,Sunrisers Hyderabad,False
+"(5, 7)",8,5,0.125,0.625,0.75,0.4375,Royal Challengers Bengaluru,Delhi Capitals,False
+"(4, 242)",8,2,0.25,0.25,0.5,0.375,Punjab Kings,Sunrisers Hyderabad,False
+"(1, 2)",9,7,0.2222222222222222,0.7777777777777778,0.4444444444444444,0.3333333333333333,Chennai Super Kings,Mumbai Indians,False
+"(1, 4)",8,1,0.375,0.125,0.25,0.3125,Chennai Super Kings,Punjab Kings,False

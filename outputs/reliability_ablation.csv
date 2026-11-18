@@ -1,0 +1,5 @@
+step,bat_rho,bat_top10,bowl_rho,bowl_top10
+"Design-doc scoring (league prior, equal components)",0.034,2.0,0.256,2.5
++ shrink toward player's own level,0.171,2.5,0.254,3.1
++ reliability-weighted components,0.443,3.2,0.339,3.9
++ percentiles within role (final),0.438,3.0,0.339,4.0

@@ -1,0 +1,37 @@
+weights,min_scale,survivors,role
+submission,0.75,9,bat
+submission,1.0,10,bat
+submission,1.5,7,bat
+equal,0.75,9,bat
+equal,1.0,9,bat
+equal,1.5,7,bat
+core only (inn1+inn2),0.75,9,bat
+core only (inn1+inn2),1.0,9,bat
+core only (inn1+inn2),1.5,6,bat
+chase/defend only,0.75,6,bat
+chase/defend only,1.0,7,bat
+chase/defend only,1.5,6,bat
+IPL context heavy,0.75,8,bat
+IPL context heavy,1.0,8,bat
+IPL context heavy,1.5,7,bat
+no rivalry,0.75,9,bat
+no rivalry,1.0,9,bat
+no rivalry,1.5,7,bat
+submission,0.75,9,bowl
+submission,1.0,10,bowl
+submission,1.5,10,bowl
+equal,0.75,9,bowl
+equal,1.0,9,bowl
+equal,1.5,9,bowl
+core only (inn1+inn2),0.75,8,bowl
+core only (inn1+inn2),1.0,8,bowl
+core only (inn1+inn2),1.5,8,bowl
+chase/defend only,0.75,6,bowl
+chase/defend only,1.0,6,bowl
+chase/defend only,1.5,5,bowl
+IPL context heavy,0.75,8,bowl
+IPL context heavy,1.0,9,bowl
+IPL context heavy,1.5,8,bowl
+no rivalry,0.75,9,bowl
+no rivalry,1.0,9,bowl
+no rivalry,1.5,9,bowl

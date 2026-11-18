@@ -1,0 +1,48 @@
+{
+  "wp_metrics": {
+    "inn2": {
+      "auc": 0.8549413749898518,
+      "brier": 0.1628979115306376,
+      "n": 94020
+    },
+    "inn1": {
+      "auc": 0.6905964194428266,
+      "brier": 0.22247700250666813,
+      "n": 103572
+    }
+  },
+  "must_win_cutoff": 16,
+  "finals": [
+    {
+      "season": 2022,
+      "fourth_pts": 16,
+      "fifth_pts": 14,
+      "complete": true
+    },
+    {
+      "season": 2023,
+      "fourth_pts": 16,
+      "fifth_pts": 14,
+      "complete": true
+    },
+    {
+      "season": 2024,
+      "fourth_pts": 14,
+      "fifth_pts": 14,
+      "complete": true
+    },
+    {
+      "season": 2025,
+      "fourth_pts": 16,
+      "fifth_pts": 16,
+      "complete": false
+    },
+    {
+      "season": 2026,
+      "fourth_pts": 16,
+      "fifth_pts": 15,
+      "complete": true
+    }
+  ],
+  "pressure_pct": 0.7
+}

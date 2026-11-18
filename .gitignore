@@ -1,0 +1,15 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# Supplied competition data is not redistributed; place the files in data/raw/ to rebuild
+data/raw/
+scratch_explore.py
+.claude/

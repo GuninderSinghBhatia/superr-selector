@@ -1,0 +1,11 @@
+Rank,Player,Team,Role,Score,Rank low (5%),Rank high (95%),P(top 10),Choke rate,Pressure balls,Filters scored,player_id,score_inn2,score_inn1,score_must_win,score_playoff,score_rivalry,score_bad_form
+1,Josh Hazlewood,Royal Challengers Bengaluru,powerplay,85.0,1,24,0.8,51.0,777,5,830,94.3,84.0,,82.8,94.6,88.1
+2,Varun Chakravarthy,Kolkata Knight Riders,middle,83.9,1,15,0.88,30.0,981,5,6256,89.7,95.5,94.3,,59.4,87.4
+3,Krunal Pandya,Royal Challengers Bengaluru,middle,80.7,1,28,0.71,49.0,725,5,4219,91.4,71.5,,85.2,81.9,89.7
+4,Rashid Khan,Gujarat Titans,middle,80.5,2,43,0.41,43.0,1290,5,4722,88.7,84.2,,82.2,83.5,68.7
+5,Bhuvneshwar Kumar,Royal Challengers Bengaluru,powerplay,80.1,1,41,0.53,44.0,1181,6,360,86.6,80.5,74.6,75.4,35.9,91.4
+6,Trent Boult,Mumbai Indians,powerplay,77.0,2,27,0.56,30.0,1067,5,2320,96.8,61.5,,78.4,92.7,63.8
+7,Sunil Narine,Kolkata Knight Riders,middle,77.0,1,21,0.79,44.0,917,5,781,80.2,86.9,77.1,,89.0,75.3
+8,Kuldeep Yadav,Delhi Capitals,middle,75.8,2,40,0.48,49.0,1032,5,3644,94.6,59.6,73.1,,97.9,80.6
+9,Jasprit Bumrah,Mumbai Indians,powerplay,74.4,2,18,0.76,65.0,971,5,2933,75.5,83.2,,76.8,86.7,63.5
+10,Nathan Ellis,Punjab Kings,death,71.0,8,87,0.1,63.0,383,3,7920,82.1,82.6,,,82.6,
