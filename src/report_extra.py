@@ -124,7 +124,9 @@ def worked_example(b, m):
     return {"season": int(info["season"]), "stage": info["stage"], "teams": f"{info['home_team']} v {info['away_team']}",
             "result": info["result"], "target": int(x.target.iloc[0]), "balls": int(len(x)),
             "pressure_balls": int((x.pi_pct >= 0.7).sum()), "max_leverage": round(float(x.leverage.max()), 3),
-            "start_wp": round(float(x.wp_before.iloc[0]), 2), "end_wp": round(float(last.wp_after), 2)}
+            "start_wp": round(float(x.wp_before.iloc[0]), 2), "end_wp": round(float(last.wp_after), 2),
+            "series": {"wp": x.wp_before.round(3).tolist(), "pi": x.pi_pct.round(3).tolist(),
+                       "wickets": [int(i) for i in np.flatnonzero(x.is_wicket.values)]}}
 
 
 def near_misses(players):

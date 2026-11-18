@@ -6,6 +6,9 @@ const pptxgen = require("pptxgenjs");
 
 const ROOT = path.resolve(__dirname, "..");
 const N = JSON.parse(fs.readFileSync(path.join(ROOT, "outputs", "report_numbers.json"), "utf8"));
+const X = JSON.parse(fs.readFileSync(path.join(ROOT, "outputs", "report_extra.json"), "utf8"));
+const IMG = path.join(ROOT, "reports", "images");
+const CREDITS = JSON.parse(fs.readFileSync(path.join(IMG, "credits.json"), "utf8"));
 const OUTFILE = path.join(ROOT, "reports", "SupeRR_Selector_R1.pptx");
 const DASH_URL = process.env.DASH_URL || "";
 
@@ -38,6 +41,37 @@ pres.defineSlideMaster({ title: "CONTENT", background: { color: HEX.white },
       fontFace: THEME.bodyFontFace, margin: 0 } } },
   ] });
 
+pres.defineSlideMaster({ title: "DIVIDER", background: { color: HEX.royal },
+  objects: [
+    { placeholder: { options: { name: "title", type: "title", x: 0.6, y: 1.6, w: 4.6, h: 1.5, fontSize: 34, bold: true,
+      color: C.background1, fontFace: THEME.headFontFace, valign: "bottom", align: "left", margin: 0 }, text: "" } },
+    { placeholder: { options: { name: "body", type: "body", x: 0.6, y: 3.25, w: 4.6, h: 1.4, fontSize: 16,
+      color: C.background2, valign: "top", margin: 0 }, text: "" } },
+  ] });
+
+// Photos: Wikimedia Commons, credited on the slide and on the credits slide.
+function photo(s, key, x, y, w, h, name) {
+  const c = CREDITS[key];
+  const r = c.w / c.h, box = w / h;
+  const iw = r > box ? h * r : w, ih = r > box ? h : w / r;   // image size that covers the box
+  s.addImage({ path: path.join(IMG, key), x, y, w: iw, h: ih, sizing: { type: "cover", w, h }, objectName: name,
+    altText: `Photo: ${c.title.replace(/\.jpe?g$/i, "")}` });
+}
+function credit(s, key, x, y, w, color) {
+  const c = CREDITS[key];
+  const who = c.license === "CC0" ? "public domain (CC0)" : `${c.artist}, ${c.license}`;
+  s.addText(`Photo: ${who}, Wikimedia Commons`, { isTextBox: true, x, y, w, h: 0.22, fontSize: 7, color: color || HEX.white,
+    fontFace: THEME.bodyFontFace, margin: 0, align: "right" });
+}
+function divider(sec, title, body, key) {
+  const sl = pres.addSlide({ masterName: "DIVIDER", sectionTitle: sec });
+  photo(sl, key, 5.6, 0, 4.4, 5.625, `divider-photo-${key}`);
+  sl.addText(title, { placeholder: "title" });
+  sl.addText(body, { placeholder: "body" });
+  credit(sl, key, 5.7, 5.33, 4.2);
+  return sl;
+}
+
 const SECTIONS = [];
 function section(t) { pres.addSection({ title: t }); SECTIONS.push(t); }
 function slide(master, sec) { return pres.addSlide({ masterName: master, sectionTitle: sec }); }
@@ -58,7 +92,11 @@ const nBoot = N.config.n_boot.toLocaleString("en-US");
 // ---------------------------------------------------------------- 1. title
 section("Answer");
 let s = slide("DARK", "Answer");
+photo(s, "hero_final.jpg", 0, 0, 10, 5.625, "title-photo");
+s.addShape(pres.shapes.RECTANGLE, { x: 0, y: 0, w: 10, h: 5.625, fill: { color: HEX.ink, transparency: 35 },
+  line: { color: HEX.ink, transparency: 100 }, objectName: "title-overlay" });
 s.addText("Who rises when the match is on the line", { placeholder: "title" });
+credit(s, "hero_final.jpg", 5.5, 5.33, 4.3);
 s.addText(`Pressure ratings for every IPL and T20I player, ${N.data.seasons}. Top 10 batters and bowlers, each with its own reliability evidence.`, { placeholder: "body" });
 tb(s, "SupeRR Selector · Round 1", { x: 0.6, y: 0.5, w: 6, h: 0.4, fontSize: 14, color: HEX.tint, bold: true });
 s.addNotes("We rate players on how they perform when a ball can swing the match, measured against what that situation usually yields and against the player's own usual level. Every rank comes with how far to trust it.");
@@ -93,8 +131,35 @@ function listSlide(role, label) {
 listSlide("bat", "batters");
 listSlide("bowl", "bowlers");
 
+// ---------------------------------------------------------------- near misses
+{
+  const NM = X.near_misses;
+  const sl = slide("CONTENT", "Answer");
+  sl.addText("Ranks 8 to 15 are close to interchangeable", { placeholder: "title" });
+  [["bat", "Batters ranked 11–15", 0.5], ["bowl", "Bowlers ranked 11–15", 5.1]].forEach(([role, head, x]) => {
+    tb(sl, head, { x, y: 1.15, w: 4.4, h: 0.35, fontSize: 15, bold: true, fontFace: THEME.headFontFace, color: role === "bat" ? HEX.pink : HEX.royal });
+    const hdr = ["#", "Player", "Rank range", "P(top 10)"].map((h) => ({ text: h, options: { bold: true, color: HEX.white, fill: { color: HEX.royal }, fontSize: 11 } }));
+    const rows = [hdr].concat(NM[role].map((r, i) => {
+      const o = { fontSize: 11, color: HEX.ink, fill: { color: i % 2 ? HEX.white : HEX.tint } };
+      return [{ text: String(r.rank), options: Object.assign({}, o, { bold: true, color: HEX.pink }) },
+        { text: r.player, options: Object.assign({}, o, { bold: true }) }, { text: r.range, options: o },
+        { text: `${Math.round(r.p_top10 * 100)}%`, options: o }];
+    }));
+    sl.addTable(rows, { x, y: 1.55, w: 4.4, colW: [0.4, 2.0, 1.0, 1.0], rowH: 0.3, fontFace: THEME.bodyFontFace,
+      border: { type: "none" }, valign: "middle", margin: [0, 0.06, 0, 0.06], objectName: `${role}-near-misses` });
+  });
+  const best = NM.bat.reduce((a, b) => (b.p_top10 > a.p_top10 ? b : a));
+  const low = L.bat.slice(7).reduce((a, b) => (b["P(top 10)"] < a["P(top 10)"] ? b : a));
+  card(sl, 0.5, 3.6, 9.0, 1.2, HEX.tintBlue, "near-miss-note");
+  tb(sl, [{ text: `${best.player} (#${best.rank}) makes the top 10 in ${Math.round(best.p_top10 * 100)}% of resamples, `, options: { bold: true } },
+    { text: `against ${Math.round(low["P(top 10)"] * 100)}% for ${low.Player} at #${low.Rank}. We submit the most likely top 10 and show the boundary honestly rather than claim exact positions.`, options: {} }],
+  { x: 0.75, y: 3.7, w: 8.5, h: 1.0, fontSize: 13, valign: "middle" });
+  sl.addNotes("The boundary of the top 10 is where the uncertainty matters most. These players are one good season from the list.");
+}
+
 // ---------------------------------------------------------------- 4. what pressure is
 section("Method");
+divider("Method", "How we measure pressure", "Ball by ball, from how far the next delivery can swing the match.", "ahmedabad.jpg");
 s = slide("CONTENT", "Method");
 s.addText("Pressure = how far the next ball can swing the match", { placeholder: "title" });
 const pctTop = Math.round((1 - N.config.pressure_pct) * 100);
@@ -114,6 +179,39 @@ tb(s, [{ text: `Top ${pctTop}%`, options: { bold: true, color: HEX.pink, fontSiz
   { text: `  of balls by pressure index = a pressure ball. Index = ${Math.round(N.config.leverage_share * 100)}% leverage + ${Math.round((1 - N.config.leverage_share) * 100)}% extra signals (dot-ball streak, recent wickets, new batter at a low score, rate gap, set batter vs fresh bowler).`, options: { fontSize: 12 } }],
   { x: 0.5, y: 3.65, w: 9.0, h: 0.9, valign: "middle" });
 s.addNotes(`Win-probability models: chasing AUC ${N.wp_metrics.inn2.auc.toFixed(2)}, first innings AUC ${N.wp_metrics.inn1.auc.toFixed(2)}, cross-validated by match. Context filters lower the leverage bar instead of replacing it, so a quiet over in a final does not count by itself.`);
+
+// ---------------------------------------------------------------- pressure map
+s = slide("CONTENT", "Method");
+s.addText("Pressure peaks when wickets fall in clusters", { placeholder: "title" });
+s.addImage({ path: path.join(ROOT, "reports", "figures", "pressure_map.png"), x: 1.8, y: 1.05, w: 6.4, h: 6.4 * 554 / 1140,
+  objectName: "pressure-map", altText: "Heat map of average pressure index by over and wickets down, innings 1 and 2" });
+tb(s, "Average pressure index by over (x) and wickets down (y). A side cruising with wickets in hand sees little pressure; four to seven down in the middle and late overs is where it concentrates. No native chart type draws a heat map, so this one is an image.",
+  { x: 0.9, y: 4.3, w: 8.2, h: 0.7, fontSize: 11, color: HEX.muted, valign: "top" });
+
+// ---------------------------------------------------------------- worked example
+{
+  const E = X.worked_example, S = E.series;
+  const sl = slide("CONTENT", "Method");
+  sl.addText(`One chase, ball by ball: ${E.season} ${E.stage}`, { placeholder: "title" });
+  const labels = S.wp.map((_, i) => String(i + 1));
+  sl.addChart([
+    { type: pres.charts.AREA, data: [{ name: "Pressure index (percentile)", labels, values: S.pi }],
+      options: { chartColors: [HEX.pink], chartColorsOpacity: 30 } },
+    { type: pres.charts.LINE, data: [{ name: "Chasing side win probability", labels, values: S.wp }],
+      options: { chartColors: [HEX.royal], lineSize: 2, lineDataSymbol: "none" } },
+  ], Object.assign({ x: 0.5, y: 1.1, w: 6.3, h: 3.9, valAxisMinVal: 0, valAxisMaxVal: 1, valAxisLabelFormatCode: "0%",
+    catAxisLabelFrequency: 20, catAxisTitle: "Ball of the chase", showCatAxisTitle: true, catAxisTitleFontSize: 10,
+    catAxisTitleColor: HEX.ink, showLegend: true, legendPos: "b", valGridLine: { color: "EEE3EA", size: 0.5 },
+    catGridLine: { style: "none" }, objectName: "worked-example-chart" }, chartText));
+  card(sl, 7.0, 1.2, 2.5, 3.7, HEX.tint, "worked-example-card");
+  tb(sl, E.teams, { x: 7.2, y: 1.35, w: 2.15, h: 0.6, fontSize: 13, bold: true, fontFace: THEME.headFontFace, color: HEX.royal, valign: "top" });
+  tb(sl, [{ text: `${E.pressure_balls} of ${E.balls}`, options: { fontSize: 26, bold: true, color: HEX.pink, fontFace: THEME.headFontFace, breakLine: true } },
+    { text: "balls were pressure balls", options: { fontSize: 11, color: HEX.muted } }], { x: 7.2, y: 2.0, w: 2.15, h: 0.9 });
+  tb(sl, [{ text: `Target ${E.target}`, options: { bold: true, breakLine: true } },
+    { text: `Win probability starts at ${Math.round(E.start_wp * 100)}%, then swings with each of the ${S.wickets.length} wickets. ${E.result.replace(" Won ", " won ")}.`, options: {} }],
+  { x: 7.2, y: 3.0, w: 2.15, h: 1.8, fontSize: 11, valign: "top" });
+  sl.addNotes("This is the IPL knock-out chase with the highest average leverage. Every ball here counts towards the chasing/defending and playoff filters of the players involved, weighted by its leverage.");
+}
 
 // ---------------------------------------------------------------- 5. validation
 s = slide("CONTENT", "Method");
@@ -141,6 +239,32 @@ tb(s, [
   { text: `Exception: death overs of a chase run at ${i2d.run_rate.toFixed(1)} vs ${i2o.run_rate.toFixed(1)} an over — batters must swing, and wickets rise (${i2d.wicket_pct.toFixed(1)}% vs ${i2o.wicket_pct.toFixed(1)}%).`, options: { bullet: { indent: 14 }, breakLine: true } },
   { text: "First-innings pressure shows up as caution, not wickets.", options: { bullet: { indent: 14 } } },
 ], { x: 6.9, y: 1.85, w: 2.45, h: 2.9, fontSize: 12, valign: "top", paraSpaceAfter: 6 });
+
+// ---------------------------------------------------------------- threshold choice
+{
+  const T = X.threshold_sweep;
+  const chosen = Math.round((1 - N.config.pressure_pct) * 100);
+  const sl = slide("CONTENT", "Method");
+  sl.addText(`Why the top ${chosen}% of balls count as pressure`, { placeholder: "title" });
+  const labs = T.map((r) => `Top ${Math.round(r.pressure_share * 100)}%`);
+  sl.addChart(pres.charts.BAR, [
+    { name: "Batters", labels: labs, values: T.map((r) => r.bat_rho) },
+    { name: "Bowlers", labels: labs, values: T.map((r) => r.bowl_rho) }],
+  Object.assign({ x: 0.5, y: 1.15, w: 5.9, h: 3.8, barDir: "col", barGrouping: "clustered", chartColors: [HEX.pink, HEX.royal],
+    showValue: true, dataLabelPosition: "outEnd", dataLabelFormatCode: "0.00", showLegend: true, legendPos: "b", valAxisMinVal: 0,
+    valAxisMaxVal: 0.6, valAxisLabelFormatCode: "0.0", valGridLine: { color: "EEE3EA", size: 0.5 }, catGridLine: { style: "none" },
+    showTitle: true, title: "Split-half repeatability at each threshold", objectName: "threshold-chart" }, chartText));
+  const t30 = T.find((r) => Math.round(r.pressure_share * 100) === chosen), t20 = T.find((r) => Math.round(r.pressure_share * 100) === 20);
+  card(sl, 6.7, 1.25, 2.8, 3.6, HEX.tintBlue, "threshold-note");
+  tb(sl, "The trade-off", { x: 6.9, y: 1.4, w: 2.4, h: 0.4, fontSize: 15, bold: true, fontFace: THEME.headFontFace, color: HEX.royal });
+  tb(sl, [
+    { text: `Narrower cuts isolate tenser balls but leave fewer players with enough of them.`, options: { bullet: { indent: 14 }, breakLine: true } },
+    { text: `At 20%, bowlers repeat a little better (${t20.bowl_rho.toFixed(2)}) but batters drop to ${t20.bat_rho.toFixed(2)} and a third fewer qualify.`, options: { bullet: { indent: 14 }, breakLine: true } },
+    { text: `At 40%, four balls in ten would count: no longer pressure.`, options: { bullet: { indent: 14 } } },
+  ], { x: 6.9, y: 1.85, w: 2.45, h: 2.9, fontSize: 12, valign: "top", paraSpaceAfter: 6 });
+}
+
+divider("Method", "How we score performance", "Against what each situation usually yields, then against the player's own usual level.", "ball.jpg");
 
 // ---------------------------------------------------------------- 6. how a score is built
 s = slide("CONTENT", "Method");
@@ -189,6 +313,7 @@ rules.forEach(([h, b], i) => {
 
 // ---------------------------------------------------------------- 8. reliability fix
 section("Reliability");
+divider("Reliability", "How far to trust it", "Every check re-runs the same scoring engine on perturbed data.", "floodlight.jpg");
 s = slide("CONTENT", "Reliability");
 s.addText("We rebuilt the scoring until rankings repeated", { placeholder: "title" });
 const shortNames = ["Design draft", "+ own-level prior", "+ weighted parts", "+ within role (final)"];
@@ -243,10 +368,12 @@ feats.forEach(([h, b], i) => {
   tb(s, h, { x: 1.15, y, w: 4.6, h: 0.32, fontSize: 15, bold: true, fontFace: THEME.headFontFace });
   tb(s, b, { x: 1.15, y: y + 0.32, w: 4.6, h: 0.45, fontSize: 12, color: HEX.muted, valign: "top" });
 });
-card(s, 6.1, 1.2, 3.4, 3.3, HEX.tintBlue, "dash-card");
-tb(s, "Export = submission", { x: 6.3, y: 1.35, w: 3.0, h: 0.4, fontSize: 15, bold: true, fontFace: THEME.headFontFace, color: HEX.royal });
-tb(s, "The submission setup in the dashboard returns exactly the Rank 1–10 lists in this deck and the report: the same engine, the same table.", { x: 6.3, y: 1.8, w: 3.0, h: 1.4, fontSize: 12, valign: "top" });
-if (DASH_URL) tb(s, [{ text: DASH_URL, options: { hyperlink: { url: DASH_URL }, color: HEX.pink, bold: true } }], { x: 6.3, y: 3.4, w: 3.0, h: 0.9, fontSize: 11, valign: "top" });
+photo(s, "wankhede.jpg", 6.1, 1.2, 3.4, 1.45, "dash-photo");
+credit(s, "wankhede.jpg", 6.1, 2.68, 3.4, HEX.muted);
+card(s, 6.1, 2.95, 3.4, 1.95, HEX.tintBlue, "dash-card");
+tb(s, "Export = submission", { x: 6.3, y: 3.05, w: 3.0, h: 0.35, fontSize: 15, bold: true, fontFace: THEME.headFontFace, color: HEX.royal });
+tb(s, "Its submission setup returns exactly the lists in this deck and the report.", { x: 6.3, y: 3.42, w: 3.0, h: 0.75, fontSize: 12, valign: "top" });
+if (DASH_URL) tb(s, [{ text: DASH_URL.replace("https://", ""), options: { hyperlink: { url: DASH_URL }, color: HEX.pink, bold: true } }], { x: 6.3, y: 4.25, w: 3.0, h: 0.4, fontSize: 11, valign: "top" });
 
 // ---------------------------------------------------------------- 11. limits
 s = slide("CONTENT", "Close");
@@ -266,8 +393,22 @@ const cannot = [`Playoffs are thin: ${N.data.playoff_matches} IPL knockout match
 
 // ---------------------------------------------------------------- 12. close
 s = slide("DARK", "Close");
+photo(s, "chinnaswamy.jpg", 0, 0, 10, 5.625, "close-photo");
+s.addShape(pres.shapes.RECTANGLE, { x: 0, y: 0, w: 10, h: 5.625, fill: { color: HEX.royal, transparency: 25 },
+  line: { color: HEX.royal, transparency: 100 }, objectName: "close-overlay" });
 s.addText("Pressure, measured and shown with its uncertainty", { placeholder: "title" });
 s.addText(`Top 10 batters led by ${L.bat[0].Player}; top 10 bowlers led by ${L.bowl[0].Player}. Every number traces to the supplied ball-by-ball data and one reproducible pipeline.`, { placeholder: "body" });
+credit(s, "chinnaswamy.jpg", 5.5, 5.33, 4.3);
+
+// ---------------------------------------------------------------- image credits
+s = slide("CONTENT", "Close");
+s.addText("Image credits", { placeholder: "title" });
+tb(s, Object.entries(CREDITS).map(([k, c], i, a) => ({
+  text: `${c.title.replace(/\.jpe?g$/i, "")} — ${c.license === "CC0" ? "public domain (CC0)" : `${c.artist}, ${c.license}`}. ${c.page}`,
+  options: { bullet: { indent: 14 }, breakLine: i < a.length - 1 } })),
+{ x: 0.5, y: 1.2, w: 9.0, h: 3.6, fontSize: 11, valign: "top", paraSpaceAfter: 6 });
+tb(s, "All photos from Wikimedia Commons under the licences shown, cropped to fit. Charts and data are our own, from the supplied files.",
+  { x: 0.5, y: 4.7, w: 9.0, h: 0.4, fontSize: 10, color: HEX.muted });
 
 (async () => {
   await pres.writeFile({ fileName: OUTFILE });
