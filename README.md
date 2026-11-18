@@ -5,7 +5,7 @@ Pressure ratings for IPL and T20I players (2022–2026): who performs above expe
 - **Submission lists:** `outputs/submission_top10_batters.csv`, `outputs/submission_top10_bowlers.csv`
 - **Methodology report:** `reports/SupeRR_Selector_R1_Methodology.pdf` (and `.docx`)
 - **Slides:** `reports/SupeRR_Selector_R1.pptx` (and `.pdf`)
-- **Dashboard:** `streamlit run app.py`
+- **Dashboard:** https://superr-selector-r1.streamlit.app (or locally: `streamlit run app.py`)
 
 ## Reproduce
 
