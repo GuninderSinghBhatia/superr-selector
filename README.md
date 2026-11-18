@@ -16,6 +16,7 @@ uv sync
 uv run python -m src.build         # data, win probability, leverage, pressure index, aggregates
 uv run python -m src.reliability   # bootstrap ranks, split-half, sensitivity, leave-one-season-out
 uv run python -m src.report        # locks the lists, report numbers and figures
+uv run python -m src.report_extra  # threshold sweep, calibration, worked example, near misses
 uv run python -m src.report_doc    # methodology .docx
 node reports/build_deck.js         # slides (needs pptxgenjs)
 uv run streamlit run app.py
